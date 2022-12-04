@@ -5,6 +5,7 @@ const tabs = () => {
 			content = document.querySelectorAll(contentSelector);
 
 		function hideTabContent() {
+			//скрываем весь контент
 			content.forEach((item) => {
 				item.style.display = "none";
 			});
@@ -13,6 +14,7 @@ const tabs = () => {
 			});
 		}
 		function showTabContent(i = 0) {
+			//показывае определенный контент
 			content[i].style.display = "block";
 
 			tab[i].classList.add(activeClass);

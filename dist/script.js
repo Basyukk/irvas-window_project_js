@@ -14040,13 +14040,73 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./slider */ "./src/js/slider.js");
 /* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
 /* harmony import */ var _modules_tabs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/tabs */ "./src/js/modules/tabs.js");
+/* harmony import */ var _modules_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/forms */ "./src/js/modules/forms.js");
+
 
 
 
 window.addEventListener("DOMContentLoaded", () => {
+  "use strict";
+
   Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])();
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  Object(_modules_forms__WEBPACK_IMPORTED_MODULE_3__["default"])();
 }); //глобальный обработчик события
+
+/***/ }),
+
+/***/ "./src/js/modules/forms.js":
+/*!*********************************!*\
+  !*** ./src/js/modules/forms.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const forms = () => {
+  const form = document.querySelectorAll("form"),
+    inputs = document.querySelectorAll("input");
+  const message = {
+    loading: "Загрузка...",
+    success: "Спасибо! Скоро мы с вами свяжемся",
+    failure: "Что-то пошло не так..."
+  };
+  const postData = async (url, data) => {
+    document.querySelector(".status").textContent = message.loading;
+    let res = await fetch(url, {
+      method: "POST",
+      body: data
+    });
+    return await res.text();
+  };
+  const clearInputs = () => {
+    inputs.forEach(item => {
+      item.value = "";
+    });
+  };
+  form.forEach(item => {
+    item.addEventListener("submit", e => {
+      e.preventDefault();
+      let statusMessage = document.createElement("div");
+      statusMessage.classList.add("status");
+      item.appendChild(statusMessage);
+      const formData = new FormData(item);
+      postData("assets/server.php", formData).then(res => {
+        console.log(res);
+        statusMessage.textContent = message.success;
+      }).catch(() => {
+        statusMessage.textContent = message.failure;
+      }).finally(() => {
+        clearInputs();
+        setTimeout(() => {
+          statusMessage.remove();
+        }, 5000);
+      });
+    });
+  });
+};
+/* harmony default export */ __webpack_exports__["default"] = (forms);
 
 /***/ }),
 
@@ -14119,6 +14179,7 @@ const tabs = () => {
       tab = document.querySelectorAll(tabSelector),
       content = document.querySelectorAll(contentSelector);
     function hideTabContent() {
+      //скрываем весь контент
       content.forEach(item => {
         item.style.display = "none";
       });
@@ -14128,6 +14189,7 @@ const tabs = () => {
     }
     function showTabContent() {
       let i = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      //показывае определенный контент
       content[i].style.display = "block";
       tab[i].classList.add(activeClass);
     }
