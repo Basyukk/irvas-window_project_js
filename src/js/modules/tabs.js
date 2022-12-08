@@ -1,5 +1,11 @@
 const tabs = () => {
-	function openTabs(headerSelector, tabSelector, contentSelector, activeClass) {
+	function openTabs(
+		headerSelector,
+		tabSelector,
+		contentSelector,
+		activeClass,
+		display = "block"
+	) {
 		const header = document.querySelector(headerSelector),
 			tab = document.querySelectorAll(tabSelector),
 			content = document.querySelectorAll(contentSelector);
@@ -15,7 +21,7 @@ const tabs = () => {
 		}
 		function showTabContent(i = 0) {
 			//показывае определенный контент
-			content[i].style.display = "block";
+			content[i].style.display = display;
 
 			tab[i].classList.add(activeClass);
 		}
@@ -47,5 +53,12 @@ const tabs = () => {
 		"after_click"
 	);
 	openTabs(".glazing_slider ", ".glazing_block", ".glazing_content", "active");
+	openTabs(
+		".balcon_icons ",
+		".balcon_icons_img",
+		".big_img > img",
+		"do_image_more",
+		"inline-block"
+	);
 };
 export default tabs;
