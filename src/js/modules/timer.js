@@ -8,6 +8,7 @@ const timer = (id, deadline) => {
 	};
 
 	const getTimeRemaining = (endtime) => {
+		// получаем то, сколько времени осталось до конца акции
 		const t = Date.parse(endtime) - Date.parse(new Date()),
 			seconds = Math.floor((t / 1000) % 60),
 			minutes = Math.floor((t / 1000 / 60) % 60),
